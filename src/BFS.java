@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Graph {
+public class BFS {
     static class Edge{
         int src;
         int dest;
@@ -11,9 +13,28 @@ public class Graph {
             this.wt =w;
         }
     }
+    public static void bfs(ArrayList<Edge>[] graph){
+        Queue<Integer> q = new LinkedList<>();
+        boolean vis[] = new boolean[graph.length];
+        q.add(0);//source=0
+        while (!q.isEmpty()){
+            int curr = q.remove();
+            if(!vis[curr]){//vist curr
+                System.out.print(curr + " ");
+                vis[curr] = true;
+                //explore curr
+                for(int i=0; i<graph[curr].size(); i++){
+                    Edge e = graph[curr].get(i);
+                    q.add(e.dest);
+                }
+
+            }
+        }
+    }
     public static void main(String[] args) {
+        //create graph
         int v = 5;
-        ArrayList<Edge> []graph = new ArrayList[v];
+        ArrayList<Edge>[]graph = new ArrayList[v];
         for(int i=0; i<v; i++){
             graph[i] = new ArrayList<>();
         }
@@ -33,10 +54,6 @@ public class Graph {
         //4-vertex
         graph[4].add(new Edge(4,2,2));
 
-        //find 2's neighbour
-        for(int i=0; i<graph[2].size(); i++){
-            Edge e = graph[2].get(i);
-            System.out.println(e.dest);
-        }
+        bfs(graph);
     }
 }
